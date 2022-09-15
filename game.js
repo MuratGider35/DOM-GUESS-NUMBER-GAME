@@ -5,7 +5,7 @@ let score = 10;
 let topScore = 0;
 
 document.querySelector(".check-btn").addEventListener("click", () => {
-  const guessInput = Number(document.querySelector(".guess-input").value);
+  let guessInput = Number(document.querySelector(".guess-input").value);
   //   console.log(guessInput);
   const msg = document.querySelector(".msg");
   if (!guessInput) {
@@ -22,8 +22,29 @@ document.querySelector(".check-btn").addEventListener("click", () => {
     document.querySelector(".secret-number").textContent = randomNumber;
   } else {
     score--;
-    guessInput > randomNumber
-      ? (msg.innerText = "decrease")
-      : (msg.innerText = "increase");
+    if (score > 0) {
+      guessInput > randomNumber
+        ? (msg.innerHTML = `<i class="fa-solid fa-arrow-down"></i> DECREASE`)
+        : (msg.innerHTML = `<i class="fa-solid fa-arrow-up"></i> INCREASE`);
+    } else {
+      msg.innerHTML = `you lost <i class="fa-solid fa-face-sad-tear"></i>`;
+      document.querySelector(".secret-number").textContent = randomNumber;
+      document.querySelector("body").style.background = "red";
+      document.querySelector(".check-btn").disabled = true;
+    }
+    document.querySelector(".score").textContent = score;
   }
+});
+
+//*************AGAİN *//////////////
+document.querySelector(".again-btn").addEventListener("click", () => {
+  score = 10;
+  randomNumber = Math.floor(Math.random() * 100) + 1;
+  document.querySelector(".score").textContent = score;
+  document.querySelector(".secret-number").textContent = "?";
+  document.querySelector(".check-btn").disabled = false;
+  document.querySelector("body").style.background = "#2d3436";
+  document.querySelector(".guess-input").value = "";
+  document.querySelector(".msg").innerText = "Starting..";
+  console.log(randomNumber);
 });
